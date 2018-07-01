@@ -1,3 +1,4 @@
 vendor/*
 !vendor/vendor.json
 beeBlog
+config/app.conf

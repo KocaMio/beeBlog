@@ -7,18 +7,28 @@ import (
 
 	"github.com/astaxie/beego/orm"
 	_ "github.com/lib/pq"
+	"fmt"
 )
 
 func init() {
-	
+	beegoConf := beego.AppConfig
+
 	// Register SQL Driver
 	orm.RegisterDriver("postgres", orm.DRPostgres)
 	
 	// Register PostgresSQL
 	orm.RegisterDataBase(
-		"default",
-		"postgres",
-		"user=miochang password=hungshih dbname=postgres host=127.0.0.1 port=5432 sslmode=disable",
+		"default", //dbname
+		"postgres", //driver
+		fmt.Sprintf(
+			"user=%s password=%s dbname=%s host=%s port=%s sslmode=%s",
+			beegoConf.String("postgres::user"),
+			beegoConf.String("postgres::password"),
+			beegoConf.String("postgres::dbname"),
+			beegoConf.String("postgres::host"),
+			beegoConf.String("postgres::port"),
+			beegoConf.String("postgres::sslmode"),
+		),
 	)
 }
 
