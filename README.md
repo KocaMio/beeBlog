@@ -1,2 +1,2 @@
 ## Require Tool
-go, bee, goose
+go, bee, goose, govendor
