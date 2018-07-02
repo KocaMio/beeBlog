@@ -102,14 +102,12 @@ func (this *ArticleController) Update() {
 		fmt.Println("Article not found")
 		return
 	} 
-// TODO: Fix the problem about createTime cannot restore back from database without any edit
-fmt.Println(model.CreateTime)
-return
+
 	model.Title = title
 	model.Content = content
 	model.EditTime = time.Now().Format("2006-01-02 15:04:05")
 
-	number, error := o.Update(&model)
+	number, error := o.Update(&model, "Title", "Content", "EditTime")
 	
 	if error != nil {
 		fmt.Println(error)
