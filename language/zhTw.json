@@ -1,0 +1,14 @@
+{
+    "response":{
+        "addDataSuccess":"Add data success",
+        "addDataFaild":"Add data faild",
+        "getDataSuccess":"Get data success",
+        "getDataFaild":"Get data faild",
+        "modifySuccess":"Modify success",
+        "modifyFaild":"Modify faild",
+        "deleteSuccess":"Delete success",
+        "deleteFaild":"Delete faild",
+        "invalidParams":"Invalid Parameters",
+        "dataNotFound": "Data not found"
+    }
+}

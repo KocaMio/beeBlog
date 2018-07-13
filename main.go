@@ -1,13 +1,12 @@
 package main
 
 import (
-	_ "beeBlog/routers"
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
-
 	"github.com/astaxie/beego/orm"
+	_ "beeBlog/routers"
 	_ "github.com/lib/pq"
-	"fmt"
 )
 
 func init() {
