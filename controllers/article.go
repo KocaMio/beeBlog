@@ -1,23 +1,23 @@
 package controllers
 
 import (
-	"strconv"
-	"time"
+    "strconv"
+    "time"
 
-	"beeBlog/models"
-	"github.com/astaxie/beego/orm"
+    "beeBlog/models"
+    "github.com/astaxie/beego/orm"
 )
 
 type ArticleController struct {
-	BaseController
+    BaseController
 }
 
 type employee struct {
-	Id       int
-	Name     string
-	Salary   int
-	Phone    int
-	Nickname string
+    Id       int
+    Name     string
+    Salary   int
+    Phone    int
+    Nickname string
 }
 
 func (this *ArticleController) SubPrepare() {
@@ -25,186 +25,186 @@ func (this *ArticleController) SubPrepare() {
 }
 
 func (this *ArticleController) Add() {
-	title := this.GetString("title")
-	content := this.GetString("content")
+    title := this.GetString("title")
+    content := this.GetString("content")
 
-	// Check Params
-	if "" == title || "" == content {
-		this.ResponseJson(JsonResponse {
-			Status: 4000,
-			Msg: ResponseText["invalidParams"],
-		})
+    // Check Params
+    if "" == title || "" == content {
+        this.ResponseJson(JsonResponse {
+            Status: 4000,
+            Msg: ResponseText["invalidParams"],
+        })
 
-		return
-	}
+        return
+    }
 
-	// Insert by ORM
-	o := orm.NewOrm()
+    // Insert by ORM
+    o := orm.NewOrm()
 
-	model := models.Article{}
-	model.Title = title
-	model.Content = content
-	model.CreateTime = time.Now().Format("2006-01-02 15:04:05")
-	model.EditTime = time.Now().Format("2006-01-02 15:04:05")
+    model := models.Article{}
+    model.Title = title
+    model.Content = content
+    model.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+    model.EditTime = time.Now().Format("2006-01-02 15:04:05")
 
-	if _, error := o.Insert(&model); error != nil {
-		this.ResponseJson(JsonResponse {
-			Status: 5000,
-			Msg: ResponseText["addDataFaild"],
-		})
+    if _, error := o.Insert(&model); error != nil {
+        this.ResponseJson(JsonResponse {
+            Status: 5000,
+            Msg: ResponseText["addDataFaild"],
+        })
 
-		return
-	} 
-	
-	data := struct { 
-		Id int
-	}{
-		model.Id,
-	} 
+        return
+    } 
+    
+    data := struct { 
+        Id int
+    }{
+        model.Id,
+    } 
 
-	this.ResponseJson(JsonResponse {
-		Status: 2000,
-		Msg: ResponseText["addDataSuccess"],
-		Data: data,
-	})
+    this.ResponseJson(JsonResponse {
+        Status: 2000,
+        Msg: ResponseText["addDataSuccess"],
+        Data: data,
+    })
 }
 
 func (this *ArticleController) Delete() {
-	id, getIdIntegerError := this.GetInt("id")
+    id, getIdIntegerError := this.GetInt("id")
 
-	// Check Params
-	if getIdIntegerError != nil {
-		this.ResponseJson(JsonResponse {
-			Status: 4000,
-			Msg: ResponseText["invalidParams"],
-		})
+    // Check Params
+    if getIdIntegerError != nil {
+        this.ResponseJson(JsonResponse {
+            Status: 4000,
+            Msg: ResponseText["invalidParams"],
+        })
 
-		return
-	}
+        return
+    }
 
-	// Delete Article
-	o := orm.NewOrm()
+    // Delete Article
+    o := orm.NewOrm()
 
-	model := models.Article{}
-	model.Id = id
+    model := models.Article{}
+    model.Id = id
 
-	if _, error := o.Delete(&model); error != nil {
-		this.ResponseJson(JsonResponse {
-			Status: 5000,
-			Msg: ResponseText["deleteFaild"],
-		})
+    if _, error := o.Delete(&model); error != nil {
+        this.ResponseJson(JsonResponse {
+            Status: 5000,
+            Msg: ResponseText["deleteFaild"],
+        })
 
-		return
-	}
+        return
+    }
 }
 
 func (this *ArticleController) Update() {
-	id, getIdIntegerError := this.GetInt("id")
-	title := this.GetString("title")
-	content := this.GetString("content")
+    id, getIdIntegerError := this.GetInt("id")
+    title := this.GetString("title")
+    content := this.GetString("content")
 
-	// Check Params
-	if getIdIntegerError != nil || 
-		title == "" || 
-		content == "" {
+    // Check Params
+    if getIdIntegerError != nil || 
+        title == "" || 
+        content == "" {
 
-		this.ResponseJson(JsonResponse {
-			Status: 4000,
-			Msg: ResponseText["invalidParams"],
-		})
+        this.ResponseJson(JsonResponse {
+            Status: 4000,
+            Msg: ResponseText["invalidParams"],
+        })
 
-		return
-	}
+        return
+    }
 
-	// Update by ORM
-	o := orm.NewOrm()
+    // Update by ORM
+    o := orm.NewOrm()
 
-	model := models.Article{}
-	model.Id = id
+    model := models.Article{}
+    model.Id = id
 
-	// Check is article exist before update
-	if error := o.Read(&model); error != nil {
-		this.ResponseJson(JsonResponse {
-			Status: 3000,
-			Msg: ResponseText["dataNotFound"],
-		})
+    // Check is article exist before update
+    if error := o.Read(&model); error != nil {
+        this.ResponseJson(JsonResponse {
+            Status: 3000,
+            Msg: ResponseText["dataNotFound"],
+        })
 
-		return
-	} 
+        return
+    } 
 
-	model.Title = title
-	model.Content = content
-	model.EditTime = time.Now().Format("2006-01-02 15:04:05")
+    model.Title = title
+    model.Content = content
+    model.EditTime = time.Now().Format("2006-01-02 15:04:05")
 
-	_, error := o.Update(&model, "Title", "Content", "EditTime")
-	
-	if error != nil {
-		this.ResponseJson(JsonResponse {
-			Status: 5000,
-			Msg: ResponseText["modifyFaild"],
-		})
+    _, error := o.Update(&model, "Title", "Content", "EditTime")
+    
+    if error != nil {
+        this.ResponseJson(JsonResponse {
+            Status: 5000,
+            Msg: ResponseText["modifyFaild"],
+        })
 
-		return
-	} 
+        return
+    } 
 
-	this.ResponseJson(JsonResponse {
-		Status: 2000,
-		Msg: ResponseText["modifySuccess"],
-	})
+    this.ResponseJson(JsonResponse {
+        Status: 2000,
+        Msg: ResponseText["modifySuccess"],
+    })
 }
 
 func (this *ArticleController) GetItem() {
-	id := this.GetString("id")
+    id := this.GetString("id")
 
-	// Check Post Params
-	if "" == id {
-		this.ResponseJson(JsonResponse {
-			Status: 2000,
-			Msg: ResponseText["invalidParams"],
-		})
+    // Check Post Params
+    if "" == id {
+        this.ResponseJson(JsonResponse {
+            Status: 2000,
+            Msg: ResponseText["invalidParams"],
+        })
 
-		return
-	}
+        return
+    }
 
-	idInt, _ := strconv.Atoi(id)
+    idInt, _ := strconv.Atoi(id)
 
-	// Get Item from ORM
-	o := orm.NewOrm()
-	
-	model := models.Article{}
-	model.Id = idInt
+    // Get Item from ORM
+    o := orm.NewOrm()
+    
+    model := models.Article{}
+    model.Id = idInt
 
-	if error := o.Read(&model); error != nil {
-		this.ResponseJson(JsonResponse {
-			Status: 5000,
-			Msg: ResponseText["getDataFaild"],
-		})
+    if error := o.Read(&model); error != nil {
+        this.ResponseJson(JsonResponse {
+            Status: 5000,
+            Msg: ResponseText["getDataFaild"],
+        })
 
-		return
-	}
+        return
+    }
 
-	// Response by JSON
-	this.Data["json"] = &model
-	this.ServeJSON()
+    // Response by JSON
+    this.Data["json"] = &model
+    this.ServeJSON()
 }
 
 func (this *ArticleController) GetList() {
 
-	// Get List
-	o := orm.NewOrm()
+    // Get List
+    o := orm.NewOrm()
 
-	model := []models.Article{}
+    model := []models.Article{}
 
-	if _, error := o.QueryTable("article").All(&model); error != nil {
-		this.ResponseJson(JsonResponse {
-			Status: 2000,
-			Msg: ResponseText["invalidParams"],
-		})
-		
-		return
-	}
+    if _, error := o.QueryTable("article").All(&model); error != nil {
+        this.ResponseJson(JsonResponse {
+            Status: 2000,
+            Msg: ResponseText["invalidParams"],
+        })
+        
+        return
+    }
 
-	// Response by JSON
-	this.Data["json"] = &model
-	this.ServeJSON()
+    // Response by JSON
+    this.Data["json"] = &model
+    this.ServeJSON()
 }
