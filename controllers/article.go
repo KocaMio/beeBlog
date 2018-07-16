@@ -96,6 +96,11 @@ func (this *ArticleController) Delete() {
 
         return
     }
+
+    this.ResponseJson(JsonResponse {
+        Status: 2000,
+        Msg: ResponseText["deleteSuccess"],
+    })
 }
 
 func (this *ArticleController) Update() {
@@ -159,7 +164,7 @@ func (this *ArticleController) GetItem() {
     // Check Post Params
     if "" == id {
         this.ResponseJson(JsonResponse {
-            Status: 2000,
+            Status: 4000,
             Msg: ResponseText["invalidParams"],
         })
 
@@ -183,9 +188,11 @@ func (this *ArticleController) GetItem() {
         return
     }
 
-    // Response by JSON
-    this.Data["json"] = &model
-    this.ServeJSON()
+    this.ResponseJson(JsonResponse {
+        Status: 2000,
+        Msg: ResponseText["getDataSuccess"],
+        Data: &model,
+    })
 }
 
 func (this *ArticleController) GetList() {
@@ -197,7 +204,7 @@ func (this *ArticleController) GetList() {
 
     if _, error := o.QueryTable("article").All(&model); error != nil {
         this.ResponseJson(JsonResponse {
-            Status: 2000,
+            Status: 4000,
             Msg: ResponseText["invalidParams"],
         })
         
@@ -205,6 +212,9 @@ func (this *ArticleController) GetList() {
     }
 
     // Response by JSON
-    this.Data["json"] = &model
-    this.ServeJSON()
+    this.ResponseJson(JsonResponse {
+        Status: 2000,
+        Msg: ResponseText["getDataSuccess"],
+        Data: &model,
+    })
 }
