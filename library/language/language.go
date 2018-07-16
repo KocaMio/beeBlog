@@ -10,22 +10,16 @@ type Lang struct {
 	Response map[string]string
 }
 
-func New(languageType interface{}) *Lang {
-	var selectLang string
+func New(languageType string) *Lang {
 
-	switch v := languageType.(type) {
-		case string:
-			selectLang = v
-		default:
-			selectLang = "zhTw"
-	}
-
-	readFile, err := ioutil.ReadFile("language/" + selectLang + ".json")
+	// Load language json file
+	readFile, err := ioutil.ReadFile("language/" + languageType + ".json")
 	
 	if err != nil {
 		log.Panicln(err)
 	}
 
+	// Parse json file
 	var parseLang Lang
 
 	err = json.Unmarshal(readFile, &parseLang)

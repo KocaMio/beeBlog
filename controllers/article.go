@@ -30,12 +30,10 @@ func (this *ArticleController) Add() {
 
 	// Check Params
 	if "" == title || "" == content {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 4000,
-			Msg: Response["invalidParams"],
-		}
-
-		this.ResponseJson(jsonResponse)
+			Msg: ResponseText["invalidParams"],
+		})
 
 		return
 	}
@@ -50,12 +48,11 @@ func (this *ArticleController) Add() {
 	model.EditTime = time.Now().Format("2006-01-02 15:04:05")
 
 	if _, error := o.Insert(&model); error != nil {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 5000,
-			Msg: Response["addDataFaild"],
-		}
+			Msg: ResponseText["addDataFaild"],
+		})
 
-		this.ResponseJson(jsonResponse)
 		return
 	} 
 	
@@ -63,15 +60,13 @@ func (this *ArticleController) Add() {
 		Id int
 	}{
 		model.Id,
-	}
+	} 
 
-	jsonResponse := JsonResponse {
+	this.ResponseJson(JsonResponse {
 		Status: 2000,
-		Msg: Response["addDataSuccess"],
+		Msg: ResponseText["addDataSuccess"],
 		Data: data,
-	}
-
-	this.ResponseJson(jsonResponse)
+	})
 }
 
 func (this *ArticleController) Delete() {
@@ -79,12 +74,11 @@ func (this *ArticleController) Delete() {
 
 	// Check Params
 	if getIdIntegerError != nil {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 4000,
-			Msg: Response["invalidParams"],
-		}
+			Msg: ResponseText["invalidParams"],
+		})
 
-		this.ResponseJson(jsonResponse)
 		return
 	}
 
@@ -95,12 +89,11 @@ func (this *ArticleController) Delete() {
 	model.Id = id
 
 	if _, error := o.Delete(&model); error != nil {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 5000,
-			Msg: Response["deleteFaild"],
-		}
+			Msg: ResponseText["deleteFaild"],
+		})
 
-		this.ResponseJson(jsonResponse)
 		return
 	}
 }
@@ -114,13 +107,12 @@ func (this *ArticleController) Update() {
 	if getIdIntegerError != nil || 
 		title == "" || 
 		content == "" {
-		
-		jsonResponse := JsonResponse {
-			Status: 4000,
-			Msg: Response["invalidParams"],
-		}
 
-		this.ResponseJson(jsonResponse)
+		this.ResponseJson(JsonResponse {
+			Status: 4000,
+			Msg: ResponseText["invalidParams"],
+		})
+
 		return
 	}
 
@@ -132,12 +124,11 @@ func (this *ArticleController) Update() {
 
 	// Check is article exist before update
 	if error := o.Read(&model); error != nil {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 3000,
-			Msg: Response["dataNotFound"],
-		}
+			Msg: ResponseText["dataNotFound"],
+		})
 
-		this.ResponseJson(jsonResponse)
 		return
 	} 
 
@@ -148,21 +139,18 @@ func (this *ArticleController) Update() {
 	_, error := o.Update(&model, "Title", "Content", "EditTime")
 	
 	if error != nil {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 5000,
-			Msg: Response["modifyFaild"],
-		}
+			Msg: ResponseText["modifyFaild"],
+		})
 
-		this.ResponseJson(jsonResponse)
 		return
 	} 
-	
-	jsonResponse := JsonResponse {
-		Status: 2000,
-		Msg: Response["modifySuccess"],
-	}
 
-	this.ResponseJson(jsonResponse)
+	this.ResponseJson(JsonResponse {
+		Status: 2000,
+		Msg: ResponseText["modifySuccess"],
+	})
 }
 
 func (this *ArticleController) GetItem() {
@@ -170,12 +158,11 @@ func (this *ArticleController) GetItem() {
 
 	// Check Post Params
 	if "" == id {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 2000,
-			Msg: Response["invalidParams"],
-		}
+			Msg: ResponseText["invalidParams"],
+		})
 
-		this.ResponseJson(jsonResponse)
 		return
 	}
 
@@ -188,12 +175,11 @@ func (this *ArticleController) GetItem() {
 	model.Id = idInt
 
 	if error := o.Read(&model); error != nil {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 5000,
-			Msg: Response["getDataFaild"],
-		}
+			Msg: ResponseText["getDataFaild"],
+		})
 
-		this.ResponseJson(jsonResponse)
 		return
 	}
 
@@ -210,12 +196,11 @@ func (this *ArticleController) GetList() {
 	model := []models.Article{}
 
 	if _, error := o.QueryTable("article").All(&model); error != nil {
-		jsonResponse := JsonResponse {
+		this.ResponseJson(JsonResponse {
 			Status: 2000,
-			Msg: Response["invalidParams"],
-		}
-
-		this.ResponseJson(jsonResponse)
+			Msg: ResponseText["invalidParams"],
+		})
+		
 		return
 	}
 

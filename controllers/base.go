@@ -19,12 +19,12 @@ type BaseController struct {
 	beego.Controller
 }
 
-var Response map[string]string
+var ResponseText map[string]string
 
 func init() {
 
 	// Init Response from language
-	Response = language.New("zhTw").Response
+	ResponseText = language.New("zhTw").Response
 }
 
 func (this *BaseController) Prepare() {
