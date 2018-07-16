@@ -12,14 +12,6 @@ type ArticleController struct {
     BaseController
 }
 
-type employee struct {
-    Id       int
-    Name     string
-    Salary   int
-    Phone    int
-    Nickname string
-}
-
 func (this *ArticleController) SubPrepare() {
 
 }
