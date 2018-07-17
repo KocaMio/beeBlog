@@ -1,10 +1,13 @@
 package main
 
 import (
+	"beeBlog/controllers"
+
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"github.com/astaxie/beego/orm"
+
 	_ "beeBlog/routers"
 	_ "github.com/lib/pq"
 )
@@ -35,6 +38,9 @@ func main() {
 	beego.BConfig.WebConfig.Session.SessionOn = true
 
 	beego.InsertFilter("/article/read", beego.BeforeRouter, FilterSomething)
+
+	// Handle Page Not Found
+	beego.ErrorController(&controllers.ErrorController{})
 
 	beego.Run()
 }

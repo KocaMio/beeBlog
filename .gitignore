@@ -2,3 +2,4 @@ vendor/*
 !vendor/vendor.json
 beeBlog
 conf/app.conf
+docker-compose.yml
