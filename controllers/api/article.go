@@ -1,10 +1,11 @@
-package controllers
+package api
 
 import (
     "strconv"
     "time"
 
     "beeBlog/models"
+    . "beeBlog/controllers"
     "github.com/astaxie/beego/orm"
 )
 

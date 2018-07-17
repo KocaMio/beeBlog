@@ -1,11 +1,12 @@
 package routers
 
 import (
+    "beeBlog/controllers/api"
     "beeBlog/controllers"
     "github.com/astaxie/beego"
 )
 
 func init() {
-    beego.AutoRouter(&controllers.ArticleController{})
-    beego.AutoRouter(&controllers.BaseController{})
+    beego.AutoRouter(&api.ArticleController{})
+    beego.Router("/", &controllers.ViewController{}, "*:Index")
 }

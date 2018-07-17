@@ -1,7 +1,7 @@
 package main
 
 import (
-	"beeBlog/controllers"
+	"beeBlog/controllers/api"
 
 	"fmt"
 	"github.com/astaxie/beego"
@@ -37,10 +37,10 @@ func init() {
 func main() {
 	beego.BConfig.WebConfig.Session.SessionOn = true
 
-	beego.InsertFilter("/article/read", beego.BeforeRouter, FilterSomething)
+	beego.InsertFilter("*", beego.BeforeRouter, FilterSomething)
 
 	// Handle Page Not Found
-	beego.ErrorController(&controllers.ErrorController{})
+	beego.ErrorController(&api.ErrorController{})
 
 	beego.Run()
 }
