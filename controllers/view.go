@@ -5,6 +5,6 @@ type ViewController struct {
 }
 
 func (this *ViewController) Index() {
-	this.TplName = "index.tpl"
+	this.TplName = "index.html"
 }
 
